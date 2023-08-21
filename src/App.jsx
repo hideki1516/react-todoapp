@@ -1,25 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import { RadioForm } from './components/RadioForm';
+import { TodoForm } from './components/TodoForm';
+import { TodoList } from "./components/TodoList"
 
-function App() {
+export const App = () => {
+
+  const todos = []
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="container">
+        <h1 className="title">JS Todoリスト</h1>
+  
+        <TodoForm />
+  
+        <RadioForm />
+  
+        <div className="todoContainer">
+          <table className="todoList">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>タスク名</th>
+                <th>状態</th>
+                <th>期日</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="addTodoTarget">
+              <TodoList />
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>
   );
 }
-
-export default App;
