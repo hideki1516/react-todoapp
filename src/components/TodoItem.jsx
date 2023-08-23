@@ -1,5 +1,4 @@
 export const TodoItem = ({id, todoName, todoLimit, todoStatus}) => {
-  console.log(todoName);
   return (
     <>
       <tr>
