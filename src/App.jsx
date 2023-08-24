@@ -41,22 +41,7 @@ export const App = () => {
   
         <RadioForm />
   
-        <div className="todoContainer">
-          <table className="todoList">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>タスク名</th>
-                <th>状態</th>
-                <th>期日</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="addTodoTarget">
-              <TodoList todos={todos} />
-            </tbody>
-          </table>
-        </div>
+        <TodoList todos={todos} />
       </div>
     </>
   );
