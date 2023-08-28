@@ -16,8 +16,8 @@ export const TodoList = (props) => {
             </tr>
           </thead>
           <tbody id="addTodoTarget">
-            {props.todos.map((todo) => {
-              return <TodoItem key={todo.id} {...todo} />
+            {props.todoItems.map((item) => {
+              return <TodoItem key={item.id} {...item} />
             })}
           </tbody>
         </table>

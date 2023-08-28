@@ -1,9 +1,9 @@
-export const TodoItem = ({id, todoName, todoLimit, todoStatus}) => {
+export const TodoItem = ({id, todoText, todoLimit, todoStatus}) => {
   return (
     <>
       <tr>
         <td>{id}</td>
-        <td>{todoName}</td>
+        <td>{todoText}</td>
         <td>
           <button className="btn btn--notStart">{todoStatus}</button>
         </td>
