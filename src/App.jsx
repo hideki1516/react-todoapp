@@ -19,15 +19,15 @@ export const App = () => {
 
   // TodoFormの入力値をsetTodoItems()にセット
   const handleTodoAdd = (todoText, todoLimit) => {
-    setTodoItems([
-      ...todoItems,
+    setTodoItems((prev) => [
+      ...prev,
       {
         id: getKey(),
         todoText: todoText,
         todoLimit: todoLimit,
         todoStatus: NOT_START,
       }
-    ]);
+    ])
   };
   
   return (
