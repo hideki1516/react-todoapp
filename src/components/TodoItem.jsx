@@ -1,4 +1,11 @@
-export const TodoItem = ({id, todoText, todoLimit, todoStatus}) => {
+export const TodoItem = ({id, todoText, todoLimit, todoStatus, handleTodoDelete}) => {
+  
+  const deleteTodo = (deleteEvent) => {
+    const deleteId = {id};
+    deleteEvent.preventDefault();
+    handleTodoDelete(deleteId);
+  }
+
   return (
     <>
       <tr>
@@ -9,7 +16,13 @@ export const TodoItem = ({id, todoText, todoLimit, todoStatus}) => {
         </td>
         <td>{todoLimit}</td>
         <td>
-          <button id="deleteBtn" className="btn btn--delete">削除</button>
+          <button
+            id="deleteBtn"
+            className="btn btn--delete"
+            onClick={deleteTodo}
+          >
+            削除
+          </button>
         </td>
       </tr>
     </>

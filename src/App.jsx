@@ -17,7 +17,7 @@ export const App = () => {
   // タスク情報のState
   const [todoItems, setTodoItems] = useState([]);
 
-  // TodoFormの入力値をsetTodoItems()にセット
+  // タスク追加用関数：TodoFormの入力値をsetTodoItems()にセット
   const handleTodoAdd = (todoText, todoLimit) => {
     setTodoItems((prev) => [
       ...prev,
@@ -29,6 +29,15 @@ export const App = () => {
       }
     ])
   };
+
+  // タスク削除用関数
+  const handleTodoDelete = (deleteId) => {
+    const newTodoItems = todoItems.filter((todoItem) => {
+      return todoItem.id !== deleteId.id;
+    });
+    setTodoItems(newTodoItems);
+  };
+  
   
   return (
     <>
@@ -39,7 +48,7 @@ export const App = () => {
   
         <RadioForm />
   
-        <TodoList todoItems={todoItems} />
+        <TodoList todoItems={todoItems} handleTodoDelete={handleTodoDelete} />
       </div>
     </>
   );
