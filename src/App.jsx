@@ -1,8 +1,11 @@
 import './css/App.css';
-import { useState } from "react";
+import { createContext, useState } from "react";
 import { RadioForm } from './components/RadioForm';
 import { TodoForm } from './components/TodoForm';
 import { TodoList } from "./components/TodoList";
+
+// タスク削除用のContextを作成
+export const TodoDeleteContext = createContext();
 
 export const App = () => {
 
@@ -48,7 +51,9 @@ export const App = () => {
   
         <RadioForm />
   
-        <TodoList todoItems={todoItems} handleTodoDelete={handleTodoDelete} />
+        <TodoDeleteContext.Provider value={handleTodoDelete}>
+          <TodoList todoItems={todoItems} />
+        </TodoDeleteContext.Provider>
       </div>
     </>
   );

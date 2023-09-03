@@ -1,9 +1,15 @@
-export const TodoItem = ({id, todoText, todoLimit, todoStatus, handleTodoDelete}) => {
+import { useContext } from "react";
+import { TodoDeleteContext } from '../App';
+
+export const TodoItem = ({id, todoText, todoLimit, todoStatus}) => {
+
+  // タスク削除用の関数をuseContextで読み込む
+  const handleTodoDeleteFromContext = useContext(TodoDeleteContext);
   
   const deleteTodo = (deleteEvent) => {
     const deleteId = {id};
     deleteEvent.preventDefault();
-    handleTodoDelete(deleteId);
+    handleTodoDeleteFromContext(deleteId);
   }
 
   return (
