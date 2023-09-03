@@ -1,5 +1,5 @@
 import './css/App.css';
-import { useId } from "react";
+import { useState } from "react";
 import { RadioForm } from './components/RadioForm';
 import { TodoForm } from './components/TodoForm';
 import { TodoList } from "./components/TodoList";
@@ -11,37 +11,35 @@ export const App = () => {
   const DONE = "完了";
   const TODO_STATUS = [NOT_START, DONE];
 
-  const todos = [
-    {
-      id: useId(),
-      todoName: 'AAA',
-      todoLimit: '2023-08-22',
-      todoStatus: NOT_START,
-    },
-    {
-      id: useId(),
-      todoName: 'BBB',
-      todoLimit: '2023-08-22',
-      todoStatus: NOT_START,
-    },
-    {
-      id: useId(),
-      todoName: 'CCC',
-      todoLimit: '2023-08-22',
-      todoStatus: NOT_START,
-    },
-  ];
+  // ランダムのIDを生成
+  const getKey = () => Math.random().toString(32).substring(2, 5);
+
+  // タスク情報のState
+  const [todoItems, setTodoItems] = useState([]);
+
+  // TodoFormの入力値をsetTodoItems()にセット
+  const handleTodoAdd = (todoText, todoLimit) => {
+    setTodoItems((prev) => [
+      ...prev,
+      {
+        id: getKey(),
+        todoText: todoText,
+        todoLimit: todoLimit,
+        todoStatus: NOT_START,
+      }
+    ])
+  };
   
   return (
     <>
       <div className="container">
         <h1 className="title">JS Todoリスト</h1>
   
-        <TodoForm />
+        <TodoForm handleTodoAdd={handleTodoAdd} />
   
         <RadioForm />
   
-        <TodoList todos={todos} />
+        <TodoList todoItems={todoItems} />
       </div>
     </>
   );
