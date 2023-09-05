@@ -7,9 +7,8 @@ export const TodoItem = ({id, todoText, todoLimit, todoStatus}) => {
   const handleTodoDeleteFromContext = useContext(TodoDeleteContext);
   
   const deleteTodo = (deleteEvent) => {
-    const deleteId = {id};
     deleteEvent.preventDefault();
-    handleTodoDeleteFromContext(deleteId);
+    handleTodoDeleteFromContext(id);
   }
 
   return (

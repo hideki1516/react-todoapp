@@ -36,7 +36,7 @@ export const App = () => {
   // タスク削除用関数
   const handleTodoDelete = (deleteId) => {
     const newTodoItems = todoItems.filter((todoItem) => {
-      return todoItem.id !== deleteId.id;
+      return todoItem.id !== deleteId;
     });
     setTodoItems(newTodoItems);
   };
