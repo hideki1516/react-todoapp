@@ -1,8 +1,10 @@
 import './css/App.css';
-import { useState } from "react";
+import { createContext, useState } from "react";
 import { RadioForm } from './components/RadioForm';
 import { TodoForm } from './components/TodoForm';
 import { TodoList } from "./components/TodoList";
+
+export const TodoContext = createContext();
 
 export const App = () => {
 
@@ -29,6 +31,14 @@ export const App = () => {
       }
     ])
   };
+
+  const handleTodoChangeStatus = (id,todoStatus) => {
+    todoItems.forEach((todoItem) => {
+      if(todoItem.id === id) {
+        todoItem.todoStatus = todoStatus === NOT_START ? DONE : NOT_START;
+      }
+    });
+  };
   
   return (
     <>
@@ -39,7 +49,9 @@ export const App = () => {
   
         <RadioForm />
   
-        <TodoList todoItems={todoItems} />
+        <TodoContext.Provider value={handleTodoChangeStatus}>
+          <TodoList todoItems={todoItems} />
+        </TodoContext.Provider>
       </div>
     </>
   );
