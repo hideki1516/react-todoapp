@@ -21,8 +21,8 @@ export const App = () => {
 
   // TodoFormの入力値をsetTodoItems()にセット
   const handleTodoAdd = (todoText, todoLimit) => {
-    setTodoItems((prev) => [
-      ...prev,
+    setTodoItems((prevTodoItem) => [
+      ...prevTodoItem,
       {
         id: getKey(),
         todoText: todoText,
@@ -32,12 +32,13 @@ export const App = () => {
     ])
   };
 
-  const handleTodoChangeStatus = (id,todoStatus) => {
-    todoItems.forEach((todoItem) => {
-      if(todoItem.id === id) {
-        todoItem.todoStatus = todoStatus === NOT_START ? DONE : NOT_START;
-      }
-    });
+  // 状態切り替え関数
+  const handleTodoChangeStatus = (id, todoCurrentStatus) => {
+    setTodoItems((prevTodoItem) => 
+      prevTodoItem.map((todoItem) => {
+        return todoItem.id === id ? { ...todoItem, todoStatus: todoCurrentStatus === NOT_START ? DONE : NOT_START } : todoItem;
+      })
+    )
   };
   
   return (
