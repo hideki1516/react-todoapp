@@ -29,6 +29,29 @@ export const App = () => {
       }
     ])
   };
+
+  // 状態ラジオボタン 選択されたオプションを管理するState
+  const [selectedStatus, setSelectedStatus] = useState(ALL);
+
+  // 状態ラジオボタン オプション
+  const RADIO_STATUS = [ALL, NOT_START, DONE];
+
+  // 状態ラジオボタン オプションを取得
+  const handleRadioStatusChange = (radioEvent) => {
+    setSelectedStatus(radioEvent.target.value);
+  }
+
+  // TODOリスト フィルタリング
+  const filteredTodos = todoItems.filter((todoItem) => {
+    switch(selectedStatus) {
+      case NOT_START:
+        return todoItem.todoStatus === NOT_START;
+      case DONE:
+        return todoItem.todoStatus === DONE;
+      default:
+        return todoItem;
+    }
+  });
   
   return (
     <>
@@ -37,9 +60,9 @@ export const App = () => {
   
         <TodoForm handleTodoAdd={handleTodoAdd} />
   
-        <RadioForm />
-  
-        <TodoList todoItems={todoItems} />
+        <RadioForm radioStatus={RADIO_STATUS} selectedStatus={selectedStatus} onChange={handleRadioStatusChange} />
+
+        <TodoList todoItems={filteredTodos} />
       </div>
     </>
   );
