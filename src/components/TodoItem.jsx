@@ -9,13 +9,11 @@ export const TodoItem = ({id, todoText, todoLimit, todoStatus}) => {
   // タスク削除用の関数をuseContextで読み込む
   const handleTodoDeleteFromContext = useContext(TodoDeleteContext);
 
-  const changeStatusTodo = (changeStatusEvent) => {
-    changeStatusEvent.preventDefault();
+  const changeStatusTodo = () => {
     handleTodoChangeStatusFromContext(id,todoStatus);
   };
   
-  const deleteTodo = (deleteEvent) => {
-    deleteEvent.preventDefault();
+  const deleteTodo = () => {
     handleTodoDeleteFromContext(id);
   }
 

@@ -39,7 +39,10 @@ export const App = () => {
   // 状態切り替え関数
   const handleTodoChangeStatus = (id, todoCurrentStatus) => {
     const newTodoItems = [...todoItems].map((newTodoItem) => {
-      return newTodoItem.id === id ? { ...newTodoItem, todoStatus: todoCurrentStatus === NOT_START ? DONE : NOT_START } : newTodoItem;
+      if( newTodoItem.id === id) {
+        return { ...newTodoItem, todoStatus: todoCurrentStatus === NOT_START ? DONE : NOT_START }
+      }
+      return newTodoItem;
     });
     setTodoItems(newTodoItems);
   };
