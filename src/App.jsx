@@ -1,8 +1,11 @@
 import './css/App.css';
-import { useState } from "react";
+import { createContext, useState } from "react";
 import { RadioForm } from './components/RadioForm';
 import { TodoForm } from './components/TodoForm';
 import { TodoList } from "./components/TodoList";
+
+// タスク削除用のContextを作成
+export const TodoDeleteContext = createContext();
 
 export const App = () => {
 
@@ -17,7 +20,7 @@ export const App = () => {
   // タスク情報のState
   const [todoItems, setTodoItems] = useState([]);
 
-  // TodoFormの入力値をsetTodoItems()にセット
+  // タスク追加用関数：TodoFormの入力値をsetTodoItems()にセット
   const handleTodoAdd = (todoText, todoLimit) => {
     setTodoItems((prev) => [
       ...prev,
@@ -29,6 +32,15 @@ export const App = () => {
       }
     ])
   };
+
+  // タスク削除用関数
+  const handleTodoDelete = (deleteId) => {
+    const newTodoItems = todoItems.filter((todoItem) => {
+      return todoItem.id !== deleteId;
+    });
+    setTodoItems(newTodoItems);
+  };
+  
   
   return (
     <>
@@ -39,7 +51,9 @@ export const App = () => {
   
         <RadioForm />
   
-        <TodoList todoItems={todoItems} />
+        <TodoDeleteContext.Provider value={handleTodoDelete}>
+          <TodoList todoItems={todoItems} />
+        </TodoDeleteContext.Provider>
       </div>
     </>
   );
