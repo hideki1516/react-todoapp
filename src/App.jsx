@@ -1,8 +1,14 @@
 import './css/App.css';
-import { useState } from "react";
+import { createContext, useState } from "react";
 import { RadioForm } from './components/RadioForm';
 import { TodoForm } from './components/TodoForm';
 import { TodoList } from "./components/TodoList";
+
+// タスク状態切り替え用のContextを作成
+export const TodoContext = createContext();
+
+// タスク削除用のContextを作成
+export const TodoDeleteContext = createContext();
 
 export const App = () => {
 
@@ -17,10 +23,10 @@ export const App = () => {
   // タスク情報のState
   const [todoItems, setTodoItems] = useState([]);
 
-  // TodoFormの入力値をsetTodoItems()にセット
+  // タスク追加用関数：TodoFormの入力値をsetTodoItems()にセット
   const handleTodoAdd = (todoText, todoLimit) => {
-    setTodoItems((prev) => [
-      ...prev,
+    setTodoItems((prevTodoItem) => [
+      ...prevTodoItem,
       {
         id: getKey(),
         todoText: todoText,
@@ -28,6 +34,25 @@ export const App = () => {
         todoStatus: NOT_START,
       }
     ])
+  };
+
+  // 状態切り替え関数
+  const handleTodoChangeStatus = (id, todoCurrentStatus) => {
+    const newTodoItems = [...todoItems].map((newTodoItem) => {
+      if( newTodoItem.id === id) {
+        return { ...newTodoItem, todoStatus: todoCurrentStatus === NOT_START ? DONE : NOT_START }
+      }
+      return newTodoItem;
+    });
+    setTodoItems(newTodoItems);
+  };
+  
+  // タスク削除用関数
+  const handleTodoDelete = (deleteId) => {
+    const newTodoItems = todoItems.filter((todoItem) => {
+      return todoItem.id !== deleteId;
+    });
+    setTodoItems(newTodoItems);
   };
 
   // 状態ラジオボタン 選択されたオプションを管理するState
@@ -52,7 +77,7 @@ export const App = () => {
         return todoItem;
     }
   });
-  
+
   return (
     <>
       <div className="container">
@@ -63,6 +88,12 @@ export const App = () => {
         <RadioForm radioStatus={RADIO_STATUS} selectedStatus={selectedStatus} onChange={handleRadioStatusChange} />
 
         <TodoList todoItems={filteredTodos} />
+
+        <TodoContext.Provider value={handleTodoChangeStatus}>
+          <TodoDeleteContext.Provider value={handleTodoDelete}>
+            <TodoList todoItems={todoItems} />
+          </TodoDeleteContext.Provider>
+        </TodoContext.Provider>
       </div>
     </>
   );
