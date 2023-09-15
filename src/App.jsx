@@ -87,11 +87,9 @@ export const App = () => {
   
         <RadioForm radioStatus={RADIO_STATUS} selectedStatus={selectedStatus} onChange={handleRadioStatusChange} />
 
-        <TodoList todoItems={filteredTodos} />
-
         <TodoContext.Provider value={handleTodoChangeStatus}>
           <TodoDeleteContext.Provider value={handleTodoDelete}>
-            <TodoList todoItems={todoItems} />
+            <TodoList todoItems={filteredTodos} />
           </TodoDeleteContext.Provider>
         </TodoContext.Provider>
       </div>
