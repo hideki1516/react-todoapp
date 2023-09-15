@@ -12,10 +12,11 @@ export const TodoDeleteContext = createContext();
 
 export const App = () => {
 
+  // タスク状態の定数
   const ALL = "全て";
   const NOT_START = "作業前";
   const DONE = "完了";
-  const TODO_STATUS = [NOT_START, DONE];
+  const TODO_STATUS = [ALL, NOT_START, DONE];
 
   // ランダムのIDを生成
   const getKey = () => Math.random().toString(32).substring(2, 5);
@@ -58,9 +59,6 @@ export const App = () => {
   // 状態ラジオボタン 選択されたオプションを管理するState
   const [selectedStatus, setSelectedStatus] = useState(ALL);
 
-  // 状態ラジオボタン オプション
-  const RADIO_STATUS = [ALL, NOT_START, DONE];
-
   // 状態ラジオボタン オプションを取得
   const handleRadioStatusChange = (radioEvent) => {
     setSelectedStatus(radioEvent.target.value);
@@ -85,7 +83,7 @@ export const App = () => {
   
         <TodoForm handleTodoAdd={handleTodoAdd} />
   
-        <RadioForm radioStatus={RADIO_STATUS} selectedStatus={selectedStatus} onChange={handleRadioStatusChange} />
+        <RadioForm radioStatus={TODO_STATUS} selectedStatus={selectedStatus} handleRadioStatusChange={handleRadioStatusChange} />
 
         <TodoContext.Provider value={handleTodoChangeStatus}>
           <TodoDeleteContext.Provider value={handleTodoDelete}>

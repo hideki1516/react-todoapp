@@ -1,4 +1,4 @@
-export const RadioForm = ({radioStatus, selectedStatus, onChange}) => {
+export const RadioForm = ({radioStatus, selectedStatus, handleRadioStatusChange}) => {
   return (
     <>
       <form action="" id="radioForm">
@@ -9,12 +9,11 @@ export const RadioForm = ({radioStatus, selectedStatus, onChange}) => {
                 <li key={status} className="state__item">
                   <label>
                     <input
-                      id={`state-${status}`}
                       type="radio"
                       name="state"
                       value={status}
                       checked={selectedStatus === status}
-                      onChange={onChange}
+                      onChange={handleRadioStatusChange}
                     />
                     <span>{status}</span>
                   </label>
