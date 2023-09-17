@@ -12,10 +12,11 @@ export const TodoDeleteContext = createContext();
 
 export const App = () => {
 
+  // タスク状態の定数
   const ALL = "全て";
   const NOT_START = "作業前";
   const DONE = "完了";
-  const TODO_STATUS = [NOT_START, DONE];
+  const TODO_STATUS = [ALL, NOT_START, DONE];
 
   // ランダムのIDを生成
   const getKey = () => Math.random().toString(32).substring(2, 5);
@@ -46,6 +47,7 @@ export const App = () => {
     });
     setTodoItems(newTodoItems);
   };
+  
   // タスク削除用関数
   const handleTodoDelete = (deleteId) => {
     const newTodoItems = todoItems.filter((todoItem) => {
@@ -53,8 +55,27 @@ export const App = () => {
     });
     setTodoItems(newTodoItems);
   };
-  
-  
+
+  // 状態ラジオボタン 選択されたオプションを管理するState
+  const [selectedStatus, setSelectedStatus] = useState(ALL);
+
+  // 状態ラジオボタン オプションを取得
+  const handleRadioStatusChange = (radioEvent) => {
+    setSelectedStatus(radioEvent.target.value);
+  }
+
+  // TODOリスト フィルタリング
+  const filteredTodos = todoItems.filter((todoItem) => {
+    switch(selectedStatus) {
+      case NOT_START:
+        return todoItem.todoStatus === NOT_START;
+      case DONE:
+        return todoItem.todoStatus === DONE;
+      default:
+        return todoItem;
+    }
+  });
+
   return (
     <>
       <div className="container">
@@ -62,11 +83,11 @@ export const App = () => {
   
         <TodoForm handleTodoAdd={handleTodoAdd} />
   
-        <RadioForm />
+        <RadioForm radioStatus={TODO_STATUS} selectedStatus={selectedStatus} handleRadioStatusChange={handleRadioStatusChange} />
 
         <TodoContext.Provider value={handleTodoChangeStatus}>
           <TodoDeleteContext.Provider value={handleTodoDelete}>
-            <TodoList todoItems={todoItems} />
+            <TodoList todoItems={filteredTodos} />
           </TodoDeleteContext.Provider>
         </TodoContext.Provider>
       </div>
