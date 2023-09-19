@@ -42,3 +42,55 @@ a {
   cursor: pointer;
   text-decoration: none;
 }
+
+/* ==========================================================================
+# common
+========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+input,
+button,
+select,
+textarea {
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  font: inherit;
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  appearance: none;
+  display: none;
+}
+
+input[type="submit"],
+input[type="button"],
+button,
+select {
+  cursor: pointer;
+}
+
+select::-ms-expand {
+  display: none;
+}

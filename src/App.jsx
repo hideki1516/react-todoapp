@@ -1,8 +1,8 @@
-import './css/App.css';
 import { createContext, useState } from "react";
 import { RadioForm } from './components/RadioForm';
 import { TodoForm } from './components/TodoForm';
 import { TodoList } from "./components/TodoList";
+import styles from './App.module.scss';
 
 // タスク状態切り替え用のContextを作成
 export const TodoContext = createContext();
@@ -78,8 +78,8 @@ export const App = () => {
 
   return (
     <>
-      <div className="container">
-        <h1 className="title">JS Todoリスト</h1>
+      <div className={styles.container}>
+        <h1 className={styles.title}>JS Todoリスト</h1>
   
         <TodoForm handleTodoAdd={handleTodoAdd} />
   

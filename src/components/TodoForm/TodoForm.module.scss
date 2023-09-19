@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+/* 追加エリア
+---------------------------------------------------------- */
+.form {
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: #343a40;
+  margin-top: 20px;
+}
+
+.formBlock {
+  & + & {
+    margin-left: 20px;
+  }
+}
+
+.name {
+  width: 40%;
+}
+
+.date {
+  width: 20%;
+}
+
+.label {
+  font-size: 14px;
+  color: #fff;
+}
+
+.field {
+  margin-top: 10px;
+
+  input {
+    display: block;
+    width: 100%;
+    height: 40px;
+    padding: 5px 8px;
+    font-size: 14px;
+    color: #495057;
+    background-color: #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+}
+
+.formBtn {
+  margin-left: 20px;
+}

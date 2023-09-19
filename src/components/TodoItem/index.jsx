@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { TodoContext, TodoDeleteContext } from '../App';
+import { TodoContext, TodoDeleteContext } from '../../App';
+import { Button } from "../Button";
 
 export const TodoItem = ({id, todoText, todoLimit, todoStatus}) => {
 
@@ -23,22 +24,11 @@ export const TodoItem = ({id, todoText, todoLimit, todoStatus}) => {
         <td>{id}</td>
         <td>{todoText}</td>
         <td>
-          <button
-            className="btn btn--notStart"
-            onClick={changeStatusTodo}
-          >
-            {todoStatus}
-          </button>
+          <Button type={'notStart'} text={todoStatus} onClick={changeStatusTodo} />
         </td>
         <td>{todoLimit}</td>
         <td>
-          <button
-            id="deleteBtn"
-            className="btn btn--delete"
-            onClick={deleteTodo}
-          >
-            削除
-          </button>
+          <Button id={'deleteBtn'} type={'delete'} text={'削除'} onClick={deleteTodo} />
         </td>
       </tr>
     </>
