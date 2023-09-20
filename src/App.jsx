@@ -42,11 +42,11 @@ export const App = () => {
 
   // 状態切り替え関数
   const handleTodoChangeStatus = (id, todoCurrentStatus) => {
-    const newTodoItems = [...todoItems].map((newTodoItem) => {
-      if( newTodoItem.id === id) {
-        return { ...newTodoItem, todoStatus: todoCurrentStatus === NOT_START ? DONE : NOT_START }
+    const newTodoItems = todoItems.map((todoItem) => { // todoItemsはそもそも配列なので、スプレッド構文必要ナシ
+      if( todoItem.id === id) {
+        return { ...todoItem, todoStatus: todoCurrentStatus === NOT_START ? DONE : NOT_START }
       }
-      return newTodoItem;
+      return todoItem;
     });
     setTodoItems(newTodoItems);
   };
@@ -66,14 +66,8 @@ export const App = () => {
 
   // TODOリスト フィルタリング
   const filteredTodos = todoItems.filter((todoItem) => {
-    switch(selectedStatus) {
-      case NOT_START:
-        return todoItem.todoStatus === NOT_START;
-      case DONE:
-        return todoItem.todoStatus === DONE;
-      default:
-        return todoItem;
-    }
+    // filter関数はtrueの要素が残されて、falseの要素が取り除かれる
+    return selectedStatus === ALL ? true : todoItem.todoStatus === selectedStatus;
   });
 
   return (
