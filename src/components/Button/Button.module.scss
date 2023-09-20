@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+/* ボタン
+---------------------------------------------------------- */
+.button {
+  display: inline-block;
+  width: 120px;
+  height: 40px;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 5px;
+  transition: opacity .3s ease;
+
+  &--add {
+    background-color: #007bff;
+  }
+
+  &--delete {
+    background-color: #cc0012;
+  }
+  
+  &--notStart {
+    width: 85px;
+    background-color: #00a960;
+  }
+  
+  &--done {
+    width: 85px;
+    background-color: #616161;
+  }
+
+  &:hover {
+    opacity: .6;
+  }
+}

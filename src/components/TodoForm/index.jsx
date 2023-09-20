@@ -1,9 +1,14 @@
 import { useState } from "react";
+import styles from './TodoForm.module.scss';
+import { Button } from "../Button";
 
 export const TodoForm = ({handleTodoAdd}) => {
 
-  const [todoText, setTodoText] = useState(''); // タスク名のState
-  const [todoLimit, setTodoLimit] = useState(''); // 期日のState
+  // タスク名のState
+  const [todoText, setTodoText] = useState('');
+
+  // 期日のState
+  const [todoLimit, setTodoLimit] = useState('');
 
   // タスク追加用の関数
   const addTodo = () => {
@@ -45,10 +50,10 @@ export const TodoForm = ({handleTodoAdd}) => {
 
   return (
     <>
-      <form id="todoForm" className="input" onSubmit={handleSubmit}>
-        <dl className="input__block input__name">
-          <dt className="input__label"><label htmlFor="todoText">タスク名</label></dt>
-          <dd className="input__field">
+      <form id="todoForm" className={styles.form} onSubmit={handleSubmit}>
+        <dl className={`${styles.formBlock} ${styles.name}`}>
+          <dt className={styles.label}><label htmlFor="todoText">タスク名</label></dt>
+          <dd className={styles.field}>
             <input
               id="todoText"
               type="text"
@@ -59,9 +64,9 @@ export const TodoForm = ({handleTodoAdd}) => {
             />
           </dd>
         </dl>
-        <dl className="input__block input__date">
-          <dt className="input__label"><label htmlFor="todoLimit">期日</label></dt>
-          <dd className="input__field">
+        <dl className={`${styles.formBlock} ${styles.date}`}>
+          <dt className={styles.label}><label htmlFor="todoLimit">期日</label></dt>
+          <dd className={styles.field}>
             <input
               id="todoLimit"
               type="date"
@@ -71,8 +76,8 @@ export const TodoForm = ({handleTodoAdd}) => {
             />
           </dd>
         </dl>
-        <div className="input__btn">
-          <button id="addBtn" className="btn btn--add">追加</button>
+        <div className={styles.formBtn}>
+          <Button id={'addBtn'} type={'add'} text={'追加'} />
         </div>
       </form>
     </>

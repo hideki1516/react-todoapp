@@ -1,0 +1,63 @@
+@charset "utf-8";
+
+/* 状態選択
+---------------------------------------------------------- */
+.list {
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.item {
+  & + & {
+    margin-left: 20px;
+  }
+}
+
+.radio {
+  & + span {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 4px 4px 4px 30px;
+    vertical-align: middle;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0.28em;
+      left: 0;
+      width: 1em;
+      height: 1em;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      line-height: 1;
+      background: #fff;
+    }
+
+    &::after {
+      content: "";
+      display: none;
+    }
+  }
+
+  &:checked {
+    & + span {
+      &::after {
+        display: block;
+        position: absolute;
+        top: 0.3em;
+        left: 0;
+        width: 1em;
+        height: 1em;
+        margin: 0;
+        padding: 0;
+        border-radius: 50%;
+        background: #007bff;
+        border: 1px solid #007bff;
+        line-height: 1;
+      }
+    }
+  }
+}

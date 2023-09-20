@@ -1,11 +1,12 @@
-import { TodoItem } from "./TodoItem"
+import { TodoItem } from "../TodoItem"
+import styles from './TodoList.module.scss';
 
 export const TodoList = (props) => {
 
   return (
     <>
-      <div className="todoContainer">
-        <table className="todoList">
+      <div className={styles.container}>
+        <table className={styles.list}>
           <thead>
             <tr>
               <th>ID</th>
