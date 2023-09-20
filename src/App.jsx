@@ -10,19 +10,22 @@ export const TodoContext = createContext();
 // タスク削除用のContextを作成
 export const TodoDeleteContext = createContext();
 
+// タスク状態の定数
+const ALL = "全て";
+const NOT_START = "作業前";
+const DONE = "完了";
+const TODO_STATUS = [ALL, NOT_START, DONE];
+
 export const App = () => {
-
-  // タスク状態の定数
-  const ALL = "全て";
-  const NOT_START = "作業前";
-  const DONE = "完了";
-  const TODO_STATUS = [ALL, NOT_START, DONE];
-
-  // ランダムのIDを生成
-  const getKey = () => Math.random().toString(32).substring(2, 5);
 
   // タスク情報のState
   const [todoItems, setTodoItems] = useState([]);
+
+  // 状態ラジオボタン 選択されたオプションを管理するState
+  const [selectedStatus, setSelectedStatus] = useState(ALL);
+
+  // ランダムのIDを生成
+  const getKey = () => Math.random().toString(32).substring(2, 5);
 
   // タスク追加用関数：TodoFormの入力値をsetTodoItems()にセット
   const handleTodoAdd = (todoText, todoLimit) => {
@@ -55,9 +58,6 @@ export const App = () => {
     });
     setTodoItems(newTodoItems);
   };
-
-  // 状態ラジオボタン 選択されたオプションを管理するState
-  const [selectedStatus, setSelectedStatus] = useState(ALL);
 
   // 状態ラジオボタン オプションを取得
   const handleRadioStatusChange = (radioEvent) => {

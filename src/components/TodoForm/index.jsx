@@ -4,8 +4,11 @@ import { Button } from "../Button";
 
 export const TodoForm = ({handleTodoAdd}) => {
 
-  const [todoText, setTodoText] = useState(''); // タスク名のState
-  const [todoLimit, setTodoLimit] = useState(''); // 期日のState
+  // タスク名のState
+  const [todoText, setTodoText] = useState('');
+
+  // 期日のState
+  const [todoLimit, setTodoLimit] = useState('');
 
   // タスク追加用の関数
   const addTodo = () => {
