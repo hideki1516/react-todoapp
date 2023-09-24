@@ -1,4 +1,6 @@
-import { createContext, useState } from "react";
+import db from "./lib/firebase/config";
+import { collection, onSnapshot, setDoc, doc, deleteDoc, serverTimestamp, query, orderBy } from "firebase/firestore";
+import { createContext, useEffect, useState } from "react";
 import { RadioForm } from './components/RadioForm';
 import { TodoForm } from './components/TodoForm';
 import { TodoList } from "./components/TodoList";
@@ -27,17 +29,30 @@ export const App = () => {
   // ランダムのIDを生成
   const getKey = () => Math.random().toString(32).substring(2, 5);
 
-  // タスク追加用関数：TodoFormの入力値をsetTodoItems()にセット
-  const handleTodoAdd = (todoText, todoLimit) => {
-    setTodoItems((prevTodoItem) => [
-      ...prevTodoItem,
-      {
-        id: getKey(),
-        todoText: todoText,
-        todoLimit: todoLimit,
-        todoStatus: NOT_START,
-      }
-    ])
+  // Firestoreのドキュメントに登録されたタスクをリストに表示
+  useEffect(() => {
+    const todosCollectionRef = collection(db, 'todos');
+    const q = query(todosCollectionRef, orderBy('timestamp', 'desc')); // 追加日降順に並び替え
+    onSnapshot(q, (querySnapshot) => { // onSnapshot ... リアルタイムでデータ取得
+      setTodoItems(
+        querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+          todoText: doc.data().text,
+          todoLimit: doc.data().limit,
+          todoStatus: NOT_START,
+        }))
+      );
+    });
+  }, []);
+
+  // タスク追加用関数（Firestoreのドキュメントに追加）
+  const handleTodoAdd = async (todoText, todoLimit) => {
+    await setDoc(doc(db, 'todos', getKey()), { // setDoc() ... doc関数を利用して第3引数に任意のidを指定
+      text: todoText,
+      limit: todoLimit,
+      timestamp: serverTimestamp(), // タイムスタンプ追加
+    });
   };
 
   // 状態切り替え関数
@@ -52,17 +67,15 @@ export const App = () => {
   };
   
   // タスク削除用関数
-  const handleTodoDelete = (deleteId) => {
-    const newTodoItems = todoItems.filter((todoItem) => {
-      return todoItem.id !== deleteId;
-    });
-    setTodoItems(newTodoItems);
+  const handleTodoDelete = async (deleteId) => {
+    const todoDocumentRef = doc(db, 'todos', deleteId);
+    await deleteDoc(todoDocumentRef);
   };
 
   // 状態ラジオボタン オプションを取得
   const handleRadioStatusChange = (radioEvent) => {
     setSelectedStatus(radioEvent.target.value);
-  }
+  };
 
   // TODOリスト フィルタリング
   const filteredTodos = todoItems.filter((todoItem) => {
