@@ -1,4 +1,6 @@
-import { createContext, useState } from "react";
+import db from "./lib/firebase/config";
+import { collection, onSnapshot, addDoc, doc, deleteDoc, serverTimestamp, Timestamp, query, orderBy, toDate } from "firebase/firestore";
+import { createContext, useEffect, useState } from "react";
 import { RadioForm } from './components/RadioForm';
 import { TodoForm } from './components/TodoForm';
 import { TodoList } from "./components/TodoList";
@@ -24,20 +26,39 @@ export const App = () => {
   // 状態ラジオボタン 選択されたオプションを管理するState
   const [selectedStatus, setSelectedStatus] = useState(ALL);
 
-  // ランダムのIDを生成
-  const getKey = () => Math.random().toString(32).substring(2, 5);
+  // Firestoreのドキュメントに登録されたタスクをリストに表示
+  useEffect(() => {
+    const todosCollectionRef = collection(db, 'todos'); // todosのデータベースを参照する
+    const q = query(todosCollectionRef, orderBy('timestamp', 'desc')); // 追加日降順に並び替え
+    onSnapshot(q, (querySnapshot) => { // onSnapshot ... リアルタイムでデータ取得
+      setTodoItems(
+        querySnapshot.docs.map((doc) => {
+          const docData = doc.data();
+          const limitObj = docData.limit ? docData.limit.toDate() : null; // FirebaseのTimestamp型をJSのDate型に変換する
+          const limitString = limitObj;
 
-  // タスク追加用関数：TodoFormの入力値をsetTodoItems()にセット
-  const handleTodoAdd = (todoText, todoLimit) => {
-    setTodoItems((prevTodoItem) => [
-      ...prevTodoItem,
-      {
-        id: getKey(),
-        todoText: todoText,
-        todoLimit: todoLimit,
-        todoStatus: NOT_START,
-      }
-    ])
+          return {
+            ...doc.data(),
+            id: doc.id,
+            todoText: doc.data().text,
+            todoLimit: limitString,
+            todoStatus: NOT_START,
+          }
+        })
+      );
+    });
+  }, []);
+
+  // タスク追加用関数（Firestoreのドキュメントに追加）
+  const handleTodoAdd = async (todoText, todoLimit) => {
+    const todosCollectionRef = collection(db, 'todos');
+    // const todoLimitObject = todoLimit !== '' ? new Date(todoLimit) : '';
+    // const todoLimitTimestamp = todoLimitObject !== '' ? Timestamp.fromDate(todoLimitObject) : null;
+    await addDoc(todosCollectionRef, {
+      text: todoText,
+      limit: todoLimit ? Timestamp.fromDate(new Date(todoLimit)) : null, // todoLimitはString型 trueならTimestampを返し、falseならnullを返す
+      timestamp: serverTimestamp(), // タイムスタンプ追加
+    })
   };
 
   // 状態切り替え関数
@@ -52,17 +73,15 @@ export const App = () => {
   };
   
   // タスク削除用関数
-  const handleTodoDelete = (deleteId) => {
-    const newTodoItems = todoItems.filter((todoItem) => {
-      return todoItem.id !== deleteId;
-    });
-    setTodoItems(newTodoItems);
+  const handleTodoDelete = async (deleteId) => {
+    const todoDocumentRef = doc(db, 'todos', deleteId); // データベースの中から削除するタスクIDを参照する
+    await deleteDoc(todoDocumentRef); // データベースからタスクを削除する
   };
 
   // 状態ラジオボタン オプションを取得
   const handleRadioStatusChange = (radioEvent) => {
     setSelectedStatus(radioEvent.target.value);
-  }
+  };
 
   // TODOリスト フィルタリング
   const filteredTodos = todoItems.filter((todoItem) => {
