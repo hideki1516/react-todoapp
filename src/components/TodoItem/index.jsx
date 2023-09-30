@@ -26,7 +26,9 @@ export const TodoItem = ({id, todoText, todoLimit, todoStatus}) => {
         <td>
           <Button type={'notStart'} text={todoStatus} onClick={changeStatusTodo} />
         </td>
-        <td>{todoLimit}</td>
+        {/* todoLimitはJSのDate型なので、toDateString()でString型に変換する */}
+        {/* todoLimitに値がない場合はnullを返すための三項演算子 todoLimitに値が入る＝String型になる＝trueを返す → trueならtodoLimitを返し、falseならnull（空）を返す */}
+        <td>{todoLimit ? todoLimit.toDateString() : null}</td>
         <td>
           <Button id={'deleteBtn'} type={'delete'} text={'削除'} onClick={deleteTodo} />
         </td>

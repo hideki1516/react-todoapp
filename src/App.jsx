@@ -33,7 +33,8 @@ export const App = () => {
     onSnapshot(q, (querySnapshot) => { // onSnapshot ... リアルタイムでデータ取得
       setTodoItems(
         querySnapshot.docs.map((doc) => {
-          const limitObj = doc.data().limit.toDate();
+          const docData = doc.data();
+          const limitObj = docData.limit ? docData.limit.toDate() : null; // FirebaseのTimestamp型をJSのDate型に変換する
           const limitString = limitObj;
 
           return {
@@ -51,11 +52,11 @@ export const App = () => {
   // タスク追加用関数（Firestoreのドキュメントに追加）
   const handleTodoAdd = async (todoText, todoLimit) => {
     const todosCollectionRef = collection(db, 'todos');
-    const todoLimitObject = new Date(todoLimit);
-    const todoLimitTimestamp = Timestamp.fromDate(todoLimitObject);
+    // const todoLimitObject = todoLimit !== '' ? new Date(todoLimit) : '';
+    // const todoLimitTimestamp = todoLimitObject !== '' ? Timestamp.fromDate(todoLimitObject) : null;
     await addDoc(todosCollectionRef, {
       text: todoText,
-      limit: todoLimitTimestamp,
+      limit: todoLimit ? Timestamp.fromDate(new Date(todoLimit)) : null, // todoLimitはString型 trueならTimestampを返し、falseならnullを返す
       timestamp: serverTimestamp(), // タイムスタンプ追加
     })
   };
